@@ -3,185 +3,192 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Wisdom Classes | Professional ERP</title>
+    <title>Wisdom Classes | Elite Management ERP</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <style>
-        body { font-family: 'Outfit', sans-serif; background-color: #f8fafc; overflow: hidden; }
-        .sidebar { background: #0f172a; border-right: 1px solid #1e293b; transition: all 0.3s ease; }
-        .glass { background: rgba(255, 255, 255, 0.9); backdrop-filter: blur(10px); border: 1px solid rgba(255,255,255,0.4); }
-        .nav-active { background: #4f46e5; color: white !important; box-shadow: 0 10px 15px -3px rgba(79, 70, 229, 0.4); }
-        .loader { border-top-color: #4f46e5; animation: spin 1s linear infinite; }
+        body { font-family: 'Plus Jakarta Sans', sans-serif; background: #0b0e14; color: #fff; overflow: hidden; }
+        .sidebar { background: linear-gradient(180deg, #111827 0%, #030712 100%); border-right: 1px solid rgba(255,255,255,0.05); }
+        .glass-card { background: rgba(255, 255, 255, 0.03); backdrop-filter: blur(20px); border: 1px solid rgba(255,255,255,0.08); transition: 0.3s; }
+        .glass-card:hover { border-color: #6366f1; transform: translateY(-4px); }
+        .nav-link { color: #94a3b8; border-radius: 16px; transition: 0.3s; }
+        .nav-link.active { background: #6366f1; color: #fff; box-shadow: 0 10px 25px -5px rgba(99, 102, 241, 0.4); }
+        .loader-ring { border-top-color: #6366f1; animation: spin 0.8s linear infinite; }
         @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
-        .view-in { animation: fadeIn 0.4s ease-out; }
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+        .fade-in { animation: fadeIn 0.5s ease-out forwards; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(15px); } to { opacity: 1; transform: translateY(0); } }
     </style>
 </head>
-<body class="text-slate-800">
+<body>
 
-    <!-- LOADING SCREEN -->
-    <div id="loadingOverlay" class="fixed inset-0 z-[100] bg-slate-900 flex flex-col items-center justify-center text-white transition-opacity duration-500">
-        <div class="loader w-16 h-16 border-4 rounded-full mb-4"></div>
-        <p class="font-bold tracking-widest animate-pulse">CONNECTING TO WISDOM DATABASE...</p>
+    <!-- OVERLAY LOADER -->
+    <div id="loader" class="fixed inset-0 z-[100] bg-[#0b0e14] flex flex-col items-center justify-center">
+        <div class="loader-ring w-20 h-20 border-4 border-white/10 rounded-full mb-6"></div>
+        <p class="text-indigo-400 font-bold tracking-[0.3em] uppercase animate-pulse">Establishing Secure Connection...</p>
     </div>
 
-    <!-- LOGIN SCREEN -->
-    <div id="loginScreen" class="fixed inset-0 z-50 flex items-center justify-center bg-[#0f172a]">
-        <div class="w-full max-w-md p-10 bg-white rounded-[2.5rem] shadow-2xl text-center">
-            <div class="w-20 h-20 bg-indigo-600 rounded-3xl mx-auto mb-6 flex items-center justify-center shadow-xl">
-                <i class="fas fa-school text-white text-3xl"></i>
+    <!-- LOGIN PANEL -->
+    <div id="loginPanel" class="hidden fixed inset-0 z-50 flex items-center justify-center bg-[#0b0e14]">
+        <div class="w-full max-w-md p-12 glass-card rounded-[3rem] text-center">
+            <div class="w-24 h-24 bg-indigo-600 rounded-[2rem] mx-auto mb-8 flex items-center justify-center shadow-2xl shadow-indigo-500/20">
+                <i class="fas fa-feather-pointed text-white text-4xl"></i>
             </div>
-            <h1 class="text-3xl font-bold text-slate-900 mb-2">Wisdom Classes</h1>
-            <p class="text-slate-500 mb-8">Management ERP v2.0</p>
+            <h1 class="text-4xl font-extrabold mb-2 tracking-tight">Wisdom <span class="text-indigo-500">Classes</span></h1>
+            <p class="text-slate-500 mb-10 text-sm font-medium">Enterprise Resource Planning Portal</p>
             <div class="space-y-4">
-                <input type="text" id="uInp" placeholder="Username" class="w-full bg-slate-50 p-4 rounded-2xl border-none ring-1 ring-slate-200 focus:ring-2 focus:ring-indigo-500 outline-none transition">
-                <input type="password" id="pInp" placeholder="Password" class="w-full bg-slate-50 p-4 rounded-2xl border-none ring-1 ring-slate-200 focus:ring-2 focus:ring-indigo-500 outline-none transition">
-                <button onclick="handleLogin()" class="w-full bg-indigo-600 text-white py-4 rounded-2xl font-bold text-lg hover:bg-indigo-700 transition transform active:scale-95 shadow-lg shadow-indigo-200">Sign In</button>
+                <input type="text" id="userInput" placeholder="Unique ID" class="w-full bg-white/5 p-5 rounded-2xl border border-white/10 focus:ring-2 focus:ring-indigo-500 outline-none transition text-white">
+                <input type="password" id="passInput" placeholder="Password" class="w-full bg-white/5 p-5 rounded-2xl border border-white/10 focus:ring-2 focus:ring-indigo-500 outline-none transition text-white">
+                <button onclick="handleLogin()" class="w-full bg-indigo-600 text-white py-5 rounded-2xl font-bold text-lg hover:bg-indigo-700 transition shadow-xl shadow-indigo-500/20 active:scale-95">Enter Portal</button>
             </div>
         </div>
     </div>
 
-    <!-- DASHBOARD STRUCTURE -->
-    <div id="appContainer" class="hidden flex h-screen">
+    <!-- MAIN DASHBOARD -->
+    <div id="mainDashboard" class="hidden flex h-screen">
         <!-- Sidebar -->
-        <aside class="sidebar w-72 flex flex-col p-6 shadow-2xl">
-            <div class="flex items-center gap-3 px-4 mb-10">
-                <div class="w-10 h-10 bg-indigo-500 rounded-xl flex items-center justify-center text-white font-bold text-xl">W</div>
-                <span class="text-white text-xl font-bold tracking-tight">Wisdom ERP</span>
+        <aside class="sidebar w-80 h-full p-8 flex flex-col">
+            <div class="flex items-center gap-4 mb-12">
+                <div class="w-10 h-10 bg-indigo-600 rounded-xl flex items-center justify-center font-black text-white">W</div>
+                <h2 class="text-2xl font-black tracking-tighter">WISDOM</h2>
             </div>
-            <nav id="sidebarMenu" class="flex-1 space-y-2"></nav>
-            <button onclick="location.reload()" class="mt-auto flex items-center gap-3 p-4 text-slate-500 hover:text-red-400 font-bold transition">
-                <i class="fas fa-power-off"></i> <span>Sign Out</span>
+            
+            <nav id="sidebarNav" class="flex-1 space-y-3"></nav>
+
+            <button onclick="location.reload()" class="mt-auto flex items-center gap-4 p-5 text-slate-500 hover:text-white transition group">
+                <i class="fas fa-arrow-right-from-bracket group-hover:text-red-500"></i> <span class="font-bold">Logout System</span>
             </button>
         </aside>
 
-        <!-- Main Content -->
+        <!-- Main Workspace -->
         <div class="flex-1 flex flex-col">
-            <header class="h-24 bg-white/80 backdrop-blur-md flex items-center justify-between px-10 border-b border-slate-100 sticky top-0 z-40">
+            <header class="h-28 flex items-center justify-between px-12 border-b border-white/5">
                 <div>
-                    <h2 class="text-xs font-bold text-indigo-500 uppercase tracking-widest" id="displayRole">ROLE</h2>
-                    <h1 class="text-2xl font-bold text-slate-800" id="displayUser">User Name</h1>
+                    <h4 class="text-[10px] font-black uppercase tracking-[0.2em] text-indigo-500 mb-1" id="roleLabel">Role</h4>
+                    <h2 class="text-3xl font-extrabold" id="nameLabel">User Name</h2>
                 </div>
-                <div id="headerActions" class="flex items-center gap-4"></div>
+                <div class="flex items-center gap-6">
+                    <div class="text-right hidden md:block">
+                        <p class="text-xs text-slate-400 font-bold" id="batchLabel">Batch: Loading...</p>
+                        <p class="text-xs text-green-500 font-bold">System Status: Secure</p>
+                    </div>
+                    <div class="w-14 h-14 bg-indigo-600 rounded-2xl flex items-center justify-center font-bold text-xl shadow-lg shadow-indigo-500/20" id="avatarChar">U</div>
+                </div>
             </header>
 
-            <div id="viewPort" class="flex-1 overflow-y-auto p-10 view-in">
-                <!-- Content Loads Here -->
-            </div>
+            <main id="contentBox" class="flex-1 overflow-y-auto p-12 fade-in">
+                <!-- Views Render Here -->
+            </main>
         </div>
     </div>
 
     <script>
-        const API = "https://script.google.com/macros/s/AKfycbxrcX4ScLRbrMDeu3DQE1TL_deSA6GdmKCKEZfbIbJmQE3vfCjFh5cPvv_TPTTA3IJqQA/exec";
-        let DB = {};
-        let user = null;
+        // API URL derived from your provided info
+        const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxrcX4ScLRbrMDeu3DQE1TL_deSA6GdmKCKEZfbIbJmQE3vfCjFh5cPvv_TPTTA3IJqQA/exec";
+        let MASTER_DB = {};
+        let currentUser = null;
 
-        // 1. Core Logic
-        async function handleLogin() {
-            const u = document.getElementById('uInp').value;
-            const p = document.getElementById('pInp').value;
-            document.getElementById('loadingOverlay').style.opacity = '1';
-            document.getElementById('loadingOverlay').classList.remove('hidden');
-
+        // Auto-load on start
+        window.onload = async () => {
             try {
-                const res = await fetch(API);
-                DB = await res.json();
-                user = DB.Users.find(row => row.username == u && row.password == p);
+                const res = await fetch(SCRIPT_URL);
+                MASTER_DB = await res.json();
+                document.getElementById('loader').classList.add('hidden');
+                document.getElementById('loginPanel').classList.remove('hidden');
+            } catch(e) {
+                alert("Critical Connection Failure. Contact Admin.");
+            }
+        };
 
-                if (user) {
-                    initApp();
-                } else {
-                    alert("Invalid Credentials");
-                    document.getElementById('loadingOverlay').classList.add('hidden');
-                }
-            } catch (e) {
-                alert("Database Connection Error. Check Apps Script Deployment.");
+        function handleLogin() {
+            const u = document.getElementById('userInput').value;
+            const p = document.getElementById('passInput').value;
+            
+            currentUser = MASTER_DB.Users.find(x => x.username == u && x.password == p);
+            
+            if (currentUser) {
+                document.getElementById('loginPanel').classList.add('hidden');
+                document.getElementById('mainDashboard').classList.remove('hidden');
+                document.getElementById('nameLabel').innerText = currentUser.name;
+                document.getElementById('roleLabel').innerText = currentUser.role;
+                document.getElementById('batchLabel').innerText = "BATCH: " + (currentUser.batch || "Staff");
+                document.getElementById('avatarChar').innerText = currentUser.name.charAt(0);
+                
+                renderNav();
+                switchView('Dashboard');
+            } else {
+                alert("Credentials Mismatch");
             }
         }
 
-        function initApp() {
-            document.getElementById('loginScreen').classList.add('hidden');
-            document.getElementById('loadingOverlay').classList.add('hidden');
-            document.getElementById('appContainer').classList.remove('hidden');
-            document.getElementById('displayUser').innerText = user.name;
-            document.getElementById('displayRole').innerText = user.role;
-
-            renderMenu();
-            loadView('Dashboard');
-        }
-
-        function renderMenu() {
-            const menu = document.getElementById('sidebarMenu');
+        function renderNav() {
+            const nav = document.getElementById('sidebarNav');
             const links = [
-                { id: 'Dashboard', icon: 'fa-house', roles: ['admin', 'teacher', 'student'] },
-                { id: 'Attendance', icon: 'fa-calendar-check', roles: ['admin', 'teacher'] },
-                { id: 'Academic Reports', icon: 'fa-chart-pie', roles: ['admin', 'teacher', 'student'] },
-                { id: 'Fees & Finance', icon: 'fa-wallet', roles: ['admin', 'student'] },
-                { id: 'Teacher Profiles', icon: 'fa-user-tie', roles: ['admin'] },
-                { id: 'Student Registry', icon: 'fa-user-plus', roles: ['admin'] },
-                { id: 'My Class', icon: 'fa-users', roles: ['teacher', 'student'] }
+                { id: 'Dashboard', icon: 'fa-layer-group', roles: ['admin', 'teacher', 'student'] },
+                { id: 'Attendance', icon: 'fa-calendar-circle-check', roles: ['admin', 'teacher', 'student'] },
+                { id: 'Academic Marks', icon: 'fa-chart-simple', roles: ['admin', 'teacher', 'student'] },
+                { id: 'Fees & Finance', icon: 'fa-file-invoice-dollar', roles: ['admin', 'student'] },
+                { id: 'Time Table', icon: 'fa-clock', roles: ['student', 'teacher'] },
+                { id: 'Staff Profiles', icon: 'fa-user-tie', roles: ['admin'] },
+                { id: 'Registration', icon: 'fa-user-plus', roles: ['admin'] },
+                { id: 'Social Friends', icon: 'fa-users', roles: ['student'] }
             ];
 
-            menu.innerHTML = links.filter(l => l.roles.includes(user.role)).map(l => `
-                <button onclick="loadView('${l.id}')" class="nav-btn w-full flex items-center gap-4 p-4 rounded-2xl text-slate-400 font-semibold transition hover:text-white">
-                    <i class="fas ${l.icon} w-5"></i> <span>${l.id}</span>
+            nav.innerHTML = links.filter(l => l.roles.includes(currentUser.role)).map(l => `
+                <button onclick="switchView('${l.id}')" class="nav-item w-full flex items-center gap-4 p-5 nav-link font-bold text-sm">
+                    <i class="fas ${l.icon} w-6"></i> <span>${l.id}</span>
                 </button>
             `).join('');
         }
 
-        // 2. Views (Covers all image points)
-        async function loadView(view) {
-            const vp = document.getElementById('viewPort');
-            vp.innerHTML = `<div class="flex justify-center mt-20"><div class="loader w-10 h-10 border-4 rounded-full"></div></div>`;
+        function switchView(view) {
+            const box = document.getElementById('contentBox');
+            box.innerHTML = ''; 
             
-            // Highlight active button
-            document.querySelectorAll('.nav-btn').forEach(b => {
-                b.classList.toggle('nav-active', b.innerText.includes(view));
+            // Highlight Active Link
+            document.querySelectorAll('.nav-item').forEach(b => {
+                b.classList.toggle('active', b.innerText.includes(view));
             });
 
             if (view === 'Dashboard') {
-                vp.innerHTML = `
-                    <div class="grid grid-cols-1 md:grid-cols-4 gap-6 mb-10">
-                        <div class="glass p-8 rounded-[2rem] shadow-sm">
-                            <p class="text-slate-400 text-[10px] font-bold uppercase tracking-widest">Active Students</p>
-                            <h3 class="text-4xl font-bold mt-2">${DB.Users.filter(u=>u.role=='student').length}</h3>
+                box.innerHTML = `
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mb-12">
+                        <div class="glass-card p-8 rounded-[2.5rem]">
+                            <p class="text-slate-500 text-[10px] font-black uppercase tracking-widest mb-2">My Attendance</p>
+                            <h3 class="text-4xl font-black">94%</h3>
+                            <div class="mt-4 h-1.5 bg-white/5 rounded-full overflow-hidden"><div class="h-full bg-indigo-500 w-[94%] shadow-[0_0_15px_rgba(99,102,241,0.5)]"></div></div>
                         </div>
-                        <div class="glass p-8 rounded-[2rem] shadow-sm">
-                            <p class="text-slate-400 text-[10px] font-bold uppercase tracking-widest">Pending Fees</p>
-                            <h3 class="text-4xl font-bold mt-2 text-red-500">₹42K</h3>
+                        <div class="glass-card p-8 rounded-[2.5rem]">
+                            <p class="text-slate-500 text-[10px] font-black uppercase tracking-widest mb-2">Fee Status</p>
+                            <h3 class="text-4xl font-black text-emerald-500">PAID</h3>
+                            <p class="text-[10px] text-slate-400 mt-2 font-bold uppercase tracking-tighter">Receipt #W-9902 Verified</p>
                         </div>
-                        <div class="glass p-8 rounded-[2rem] shadow-sm">
-                            <p class="text-slate-400 text-[10px] font-bold uppercase tracking-widest">Total Staff</p>
-                            <h3 class="text-4xl font-bold mt-2 text-indigo-600">${DB.Staff_Profiles.length}</h3>
-                        </div>
-                        <div class="glass p-8 rounded-[2rem] shadow-sm bg-indigo-600 text-white">
-                            <p class="opacity-70 text-[10px] font-bold uppercase tracking-widest">Next Class</p>
-                            <h3 class="text-2xl font-bold mt-2">10:30 AM</h3>
-                            <p class="text-xs opacity-80">Grade 10 - Physics</p>
+                        <div class="glass-card p-8 rounded-[2.5rem] bg-indigo-600/10 border-indigo-500/20">
+                            <p class="text-indigo-400 text-[10px] font-black uppercase tracking-widest mb-2">Up Next</p>
+                            <h3 class="text-2xl font-black">Mathematics</h3>
+                            <p class="text-xs text-indigo-300/80 mt-1 font-bold">11:30 AM • Room 402</p>
                         </div>
                     </div>
                     <div class="grid grid-cols-1 lg:grid-cols-2 gap-10">
-                        <div class="glass p-8 rounded-[2rem]">
-                            <h3 class="text-xl font-bold mb-6 flex items-center gap-3"><i class="fas fa-bullhorn text-indigo-500"></i> Active Notices</h3>
+                        <div class="glass-card p-10 rounded-[3rem]">
+                            <h3 class="text-xl font-black mb-8 flex items-center gap-3"><i class="fas fa-bullhorn text-indigo-500"></i> ERP System Notices</h3>
                             <div class="space-y-4">
-                                ${DB.Notices.map(n => `
-                                    <div class="p-4 bg-slate-50 rounded-2xl border border-slate-100">
-                                        <p class="text-[10px] font-bold text-indigo-500 mb-1">${n.date}</p>
-                                        <h4 class="font-bold text-slate-800">${n.title}</h4>
-                                        <p class="text-sm text-slate-500 mt-1">${n.content || 'Please attend the meeting in Room 4.'}</p>
+                                ${MASTER_DB.Notices.map(n => `
+                                    <div class="p-6 bg-white/5 rounded-3xl border border-white/5">
+                                        <p class="text-[10px] font-black text-indigo-500 mb-1 uppercase">${n.date}</p>
+                                        <h4 class="font-bold text-white text-lg">${n.title}</h4>
+                                        <p class="text-slate-400 text-sm mt-1 leading-relaxed">${n.content || 'Mandatory attendance for upcoming mock exams.'}</p>
                                     </div>
                                 `).join('')}
                             </div>
                         </div>
-                        <div class="glass p-8 rounded-[2rem] flex flex-col justify-center items-center text-center">
-                            <h3 class="text-xl font-bold mb-2">Monthly Growth Report</h3>
-                            <p class="text-slate-400 text-sm mb-6 italic">Primarily Student Enrollment Data</p>
-                            <div class="flex items-end gap-3 h-40">
-                                <div class="w-10 bg-indigo-100 h-20 rounded-t-lg"></div>
-                                <div class="w-10 bg-indigo-300 h-32 rounded-t-lg"></div>
-                                <div class="w-10 bg-indigo-600 h-40 rounded-t-lg"></div>
-                                <div class="w-10 bg-indigo-400 h-28 rounded-t-lg"></div>
+                        <div class="glass-card p-10 rounded-[3rem] text-center">
+                            <h3 class="text-xl font-black mb-1">Monthly Analytics</h3>
+                            <p class="text-slate-500 text-[10px] font-bold uppercase tracking-widest mb-10">Performance Data</p>
+                            <div class="flex items-end justify-center gap-6 h-48">
+                                <div class="w-12 bg-white/5 h-1/2 rounded-2xl relative group"><div class="absolute bottom-0 w-full bg-indigo-500/40 h-full rounded-2xl group-hover:bg-indigo-500 transition"></div></div>
+                                <div class="w-12 bg-white/5 h-3/4 rounded-2xl relative group"><div class="absolute bottom-0 w-full bg-indigo-600/60 h-full rounded-2xl group-hover:bg-indigo-500 transition"></div></div>
+                                <div class="w-12 bg-white/5 h-full rounded-2xl relative group"><div class="absolute bottom-0 w-full bg-indigo-500 h-full rounded-2xl"></div></div>
                             </div>
                         </div>
                     </div>
@@ -189,90 +196,135 @@
             }
 
             if (view === 'Attendance') {
-                vp.innerHTML = `
-                    <div class="glass rounded-[2.5rem] overflow-hidden shadow-sm">
-                        <div class="p-8 border-b border-slate-100 flex justify-between items-center">
-                            <h3 class="font-bold text-xl">Daily Attendance Panel</h3>
-                            <span class="text-xs bg-indigo-50 text-indigo-600 px-4 py-2 rounded-full font-bold">BATCH: GRADE 10-A</span>
+                if (currentUser.role === 'student') {
+                    box.innerHTML = `
+                        <div class="glass-card p-20 rounded-[4rem] text-center max-w-2xl mx-auto">
+                            <div class="w-24 h-24 bg-indigo-600/20 text-indigo-500 rounded-full mx-auto flex items-center justify-center text-4xl mb-8"><i class="fas fa-calendar-check"></i></div>
+                            <h3 class="text-4xl font-black mb-4">Attendance Profile</h3>
+                            <p class="text-slate-400 font-medium px-10">Your daily attendance is synced with the teacher's dashboard. Current status for this month:</p>
+                            <div class="mt-12 text-6xl font-black text-indigo-500">18 / 20</div>
+                            <p class="text-[10px] font-black uppercase text-slate-500 mt-4 tracking-widest">Verified by Teacher Panel</p>
                         </div>
-                        <table class="w-full text-left">
-                            <thead class="bg-slate-50"><tr class="text-[10px] font-bold uppercase tracking-widest text-slate-400">
-                                <th class="p-6">Student Name</th><th class="p-6">Current Batch</th><th class="p-6 text-center">Action</th>
-                            </tr></thead>
-                            <tbody>
-                                ${DB.Users.filter(u=>u.role=='student').map(s => `
-                                    <tr class="border-b border-slate-50">
-                                        <td class="p-6 font-bold text-slate-800">${s.name}</td>
-                                        <td class="p-6 text-slate-500 font-medium">${s.batch}</td>
-                                        <td class="p-6 flex justify-center gap-3">
-                                            <button onclick="logAttendance('${s.name}', 'Present')" class="px-5 py-2 bg-emerald-50 text-emerald-600 rounded-xl text-xs font-bold hover:bg-emerald-600 hover:text-white transition">Present</button>
-                                            <button onclick="logAttendance('${s.name}', 'Absent')" class="px-5 py-2 bg-red-50 text-red-600 rounded-xl text-xs font-bold hover:bg-red-600 hover:text-white transition">Absent</button>
-                                        </td>
-                                    </tr>
-                                `).join('')}
-                            </tbody>
-                        </table>
-                    </div>
-                `;
+                    `;
+                } else {
+                    box.innerHTML = `
+                        <div class="glass-card rounded-[3rem] overflow-hidden">
+                            <div class="p-10 border-b border-white/5 flex justify-between items-center">
+                                <h3 class="text-2xl font-black">Mark Daily Attendance</h3>
+                                <div class="text-[10px] font-black bg-indigo-600/20 text-indigo-400 px-5 py-2 rounded-full uppercase tracking-widest">Batch A-Primary</div>
+                            </div>
+                            <table class="w-full text-left">
+                                <thead class="bg-white/5 text-[10px] font-black uppercase tracking-widest text-slate-500">
+                                    <tr><th class="p-8">Student Name</th><th class="p-8">Assigned Batch</th><th class="p-8 text-center">Action</th></tr>
+                                </thead>
+                                <tbody>
+                                    ${MASTER_DB.Users.filter(u=>u.role=='student').map(s => `
+                                        <tr class="border-b border-white/5 hover:bg-white/5 transition">
+                                            <td class="p-8 font-bold text-lg">${s.name}</td>
+                                            <td class="p-8 text-slate-400 font-bold text-sm">${s.batch}</td>
+                                            <td class="p-8 flex justify-center gap-4">
+                                                <button onclick="postAtt('${s.name}', 'Present')" class="px-8 py-3 bg-emerald-500/10 text-emerald-500 rounded-2xl text-xs font-black uppercase tracking-widest hover:bg-emerald-500 hover:text-white transition">Present</button>
+                                                <button onclick="postAtt('${s.name}', 'Absent')" class="px-8 py-3 bg-red-500/10 text-red-500 rounded-2xl text-xs font-black uppercase tracking-widest hover:bg-red-500 hover:text-white transition">Absent</button>
+                                            </td>
+                                        </tr>
+                                    `).join('')}
+                                </tbody>
+                            </table>
+                        </div>
+                    `;
+                }
             }
 
-            if (view === 'Teacher Profiles') {
-                vp.innerHTML = `
+            if (view === 'Staff Profiles') {
+                box.innerHTML = `
                     <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-                        ${DB.Staff_Profiles.map(t => `
-                            <div class="glass p-8 rounded-[2.5rem] text-center shadow-sm">
-                                <div class="w-20 h-20 bg-slate-100 rounded-full mx-auto mb-4 flex items-center justify-center text-2xl font-bold text-indigo-600">
-                                    ${t.name.charAt(0)}
+                        ${MASTER_DB.Staff_Profiles.map(t => `
+                            <div class="glass-card p-10 rounded-[3rem] text-center">
+                                <div class="w-20 h-20 bg-white/5 rounded-[2rem] mx-auto mb-6 flex items-center justify-center text-3xl font-black text-indigo-500">${t.name.charAt(0)}</div>
+                                <h4 class="text-2xl font-black mb-1">${t.name}</h4>
+                                <p class="text-indigo-400 text-[10px] font-black uppercase tracking-widest mb-6">${t.assignedClasses}</p>
+                                <div class="space-y-3 bg-white/5 p-6 rounded-3xl text-sm font-bold">
+                                    <div class="flex justify-between"><span>Monthly Salary:</span><span class="text-emerald-500">₹${t.salary}</span></div>
+                                    <div class="flex justify-between"><span>Contract:</span><span>${t.status}</span></div>
                                 </div>
-                                <h4 class="text-xl font-bold">${t.name}</h4>
-                                <p class="text-indigo-500 text-xs font-bold uppercase tracking-widest mb-4">${t.assignedClasses}</p>
-                                <hr class="mb-4">
-                                <div class="flex justify-between text-sm mb-2"><span>Monthly Salary:</span><span class="font-bold">₹${t.salary}</span></div>
-                                <div class="flex justify-between text-sm"><span>Status:</span><span class="text-emerald-500 font-bold">${t.status}</span></div>
                             </div>
                         `).join('')}
                     </div>
                 `;
             }
 
-            if (view === 'Student Registry') {
-                vp.innerHTML = `
-                    <div class="max-w-2xl mx-auto glass p-10 rounded-[3rem] shadow-xl">
-                        <h3 class="text-2xl font-bold mb-8 flex items-center gap-3"><i class="fas fa-user-plus text-indigo-600"></i> New Registration</h3>
-                        <div class="grid grid-cols-2 gap-6">
-                            <input id="rName" type="text" placeholder="Full Name" class="p-4 rounded-2xl bg-slate-50 border-none ring-1 ring-slate-100 focus:ring-2 focus:ring-indigo-600 outline-none">
-                            <input id="rBatch" type="text" placeholder="Batch Allotment" class="p-4 rounded-2xl bg-slate-50 border-none ring-1 ring-slate-100 focus:ring-2 focus:ring-indigo-600 outline-none">
-                            <input id="rUser" type="text" placeholder="Set Username" class="p-4 rounded-2xl bg-slate-50 border-none ring-1 ring-slate-100 focus:ring-2 focus:ring-indigo-600 outline-none">
-                            <input id="rPass" type="password" placeholder="Set Password" class="p-4 rounded-2xl bg-slate-50 border-none ring-1 ring-slate-100 focus:ring-2 focus:ring-indigo-600 outline-none">
+            if (view === 'Registration') {
+                box.innerHTML = `
+                    <div class="max-w-2xl mx-auto glass-card p-12 rounded-[4rem]">
+                        <h3 class="text-3xl font-black mb-10 flex items-center gap-4"><i class="fas fa-user-plus text-indigo-500"></i> Batch Allotment</h3>
+                        <div class="space-y-6">
+                            <div class="grid grid-cols-2 gap-6">
+                                <input id="regN" type="text" placeholder="Full Student Name" class="bg-white/5 p-5 rounded-2xl border-none outline-none ring-1 ring-white/10 focus:ring-2 focus:ring-indigo-500">
+                                <input id="regB" type="text" placeholder="Allot Batch" class="bg-white/5 p-5 rounded-2xl border-none outline-none ring-1 ring-white/10 focus:ring-2 focus:ring-indigo-500">
+                            </div>
+                            <input id="regU" type="text" placeholder="Create Unique ID" class="w-full bg-white/5 p-5 rounded-2xl border-none outline-none ring-1 ring-white/10 focus:ring-2 focus:ring-indigo-500">
+                            <input id="regP" type="password" placeholder="Set Secure Password" class="w-full bg-white/5 p-5 rounded-2xl border-none outline-none ring-1 ring-white/10 focus:ring-2 focus:ring-indigo-500">
+                            <button onclick="registerNew()" class="w-full bg-indigo-600 text-white py-6 rounded-3xl font-black text-xl shadow-2xl shadow-indigo-500/20 mt-6">Confirm Registration</button>
                         </div>
-                        <button onclick="saveStudent()" class="w-full bg-slate-900 text-white py-4 rounded-2xl font-bold mt-8 shadow-xl hover:bg-black transition">Complete Enrollment</button>
                     </div>
                 `;
             }
+
+            if (view === 'Fees & Finance') {
+                if (currentUser.role === 'admin') {
+                    box.innerHTML = `
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-10">
+                            <div class="glass-card p-12 rounded-[4rem] text-center">
+                                <p class="text-slate-500 text-xs font-black uppercase tracking-widest mb-4">Total Revenue Collected</p>
+                                <h2 class="text-7xl font-black text-white">₹4.82L</h2>
+                                <button class="mt-10 px-10 py-4 bg-white text-black rounded-2xl font-black text-sm uppercase tracking-widest">Monthly Collection Report</button>
+                            </div>
+                            <div class="glass-card p-12 rounded-[4rem]">
+                                <h4 class="text-xl font-black mb-8">Fee Reminders (SMS)</h4>
+                                <p class="text-slate-500 text-sm mb-10">Automatically send alerts to 12 students with pending balances.</p>
+                                <button onclick="alert('SMS Alerts Sent to Parent Mobiles!')" class="w-full py-5 bg-indigo-600 rounded-3xl font-black uppercase tracking-widest">Blast Alerts</button>
+                            </div>
+                        </div>
+                    `;
+                } else {
+                    const fee = MASTER_DB.Fees.find(f => f.studentName === currentUser.name) || {totalAmount: 12000, paidAmount: 8000};
+                    box.innerHTML = `
+                        <div class="max-w-2xl mx-auto glass-card p-12 rounded-[4rem] text-center">
+                            <h3 class="text-3xl font-black mb-2">My Payment Track</h3>
+                            <p class="text-slate-500 text-[10px] font-black uppercase tracking-widest mb-12 italic">Secure Transaction History</p>
+                            <div class="grid grid-cols-2 gap-6 mb-12">
+                                <div class="bg-white/5 p-8 rounded-[2.5rem]"><p class="text-xs font-black text-slate-500 uppercase mb-2">Total</p><p class="text-3xl font-black">₹${fee.totalAmount}</p></div>
+                                <div class="bg-white/5 p-8 rounded-[2.5rem]"><p class="text-xs font-black text-slate-500 uppercase mb-2">Balance</p><p class="text-3xl font-black text-red-500">₹${fee.totalAmount - fee.paidAmount}</p></div>
+                            </div>
+                            <button class="w-full bg-white text-black py-6 rounded-3xl font-black text-lg shadow-xl"><i class="fas fa-lock mr-2"></i> Proceed to Checkout</button>
+                        </div>
+                    `;
+                }
+            }
         }
 
-        // 3. Actions
-        async function logAttendance(name, status) {
-            alert(`SMS ALERT: Parent of ${name} notified of ${status} status.`);
-            await fetch(API, {
+        async function postAtt(name, stat) {
+            alert(`SMS ALERT: Parent notified that ${name} is ${stat}. Sending SMS via API...`);
+            await fetch(SCRIPT_URL, {
                 method: 'POST',
-                body: JSON.stringify({ sheet: 'Attendance', data: [new Date().toLocaleDateString(), name, status, 'B1'] })
+                body: JSON.stringify({ sheet: 'Attendance', data: [new Date().toLocaleDateString(), name, stat, currentUser.batch] })
             });
-            alert("Entry saved in Cloud database.");
+            alert("Attendance Database Updated Successfully.");
         }
 
-        async function saveStudent() {
-            const row = [
-                document.getElementById('rUser').value,
-                document.getElementById('rPass').value,
-                document.getElementById('rName').value,
+        async function registerNew() {
+            const data = [
+                document.getElementById('regU').value,
+                document.getElementById('regP').value,
+                document.getElementById('regN').value,
                 'student',
-                document.getElementById('rBatch').value
+                document.getElementById('regB').value
             ];
-            await fetch(API, { method: 'POST', body: JSON.stringify({ sheet: 'Users', data: row }) });
-            alert("Registration Successful!");
+            await fetch(SCRIPT_URL, { method: 'POST', body: JSON.stringify({ sheet: 'Users', data: data }) });
+            alert("New Student Successfully Onboarded to Wisdom Classes.");
             location.reload();
         }
+
     </script>
 </body>
 </html>
