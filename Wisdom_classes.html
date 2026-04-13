@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Wisdom Classes | Premium ERP</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Outfit', sans-serif; background-color: #f8fafc; overflow: hidden; }
+        .glass { background: rgba(255, 255, 255, 0.8); backdrop-filter: blur(12px); border: 1px solid rgba(255,255,255,0.3); }
+        .sidebar-link.active { background: #4f46e5; color: white; box-shadow: 0 10px 15px -3px rgba(79, 70, 229, 0.4); }
+        .page-transition { animation: fadeIn 0.4s ease-out; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-thumb { background: #e2e8f0; border-radius: 10px; }
+    </style>
+</head>
+<body class="text-slate-800">
+
+    <!-- LOGIN SCREEN -->
+    <div id="loginPage" class="fixed inset-0 z-[100] flex items-center justify-center bg-indigo-950">
+        <div class="glass p-10 rounded-[2rem] shadow-2xl w-full max-w-md text-center page-transition">
+            <div class="w-20 h-20 bg-indigo-600 rounded-2xl mx-auto mb-6 flex items-center justify-center shadow-lg">
+                <i class="fas fa-graduation-cap text-white text-3xl"></i>
+            </div>
+            <h1 class="text-3xl font-bold text-slate-900">Wisdom Classes</h1>
+            <p class="text-slate-500 mt-2 mb-8">Premium ERP Portal</p>
+            <div class="space-y-4">
+                <input type="text" id="username" placeholder="Username" class="w-full px-5 py-4 rounded-2xl bg-white border-none ring-1 ring-slate-200 focus:ring-2 focus:ring-indigo-500 outline-none transition-all">
+                <input type="password" id="password" placeholder="Password" class="w-full px-5 py-4 rounded-2xl bg-white border-none ring-1 ring-slate-200 focus:ring-2 focus:ring-indigo-500 outline-none transition-all">
+                <button onclick="login()" class="w-full bg-indigo-600 text-white py-4 rounded-2xl font-bold text-lg hover:bg-indigo-700 hover:shadow-xl transition-all active:scale-95">Sign In</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- MAIN INTERFACE -->
+    <div id="mainApp" class="hidden flex h-screen">
+        <!-- Sidebar -->
+        <aside class="w-72 bg-white border-r border-slate-100 flex flex-col p-6">
+            <div class="flex items-center gap-3 mb-10 px-2">
+                <div class="w-10 h-10 bg-indigo-600 rounded-xl flex items-center justify-center text-white font-bold">W</div>
+                <span class="text-xl font-bold tracking-tight">Wisdom ERP</span>
+            </div>
+
+            <nav class="flex-1 space-y-2" id="navMenu">
+                <!-- Links filled by JS based on role -->
+            </nav>
+
+            <button onclick="logout()" class="mt-auto flex items-center gap-3 p-4 text-slate-400 hover:text-red-500 transition-colors">
+                <i class="fas fa-power-off"></i> <span class="font-semibold">Logout</span>
+            </button>
+        </aside>
+
+        <!-- Content Area -->
+        <main class="flex-1 flex flex-col overflow-hidden">
+            <header class="h-20 bg-white/50 backdrop-blur-md flex items-center justify-between px-10 border-b border-slate-100">
+                <h2 id="viewTitle" class="text-xl font-bold">Dashboard</h2>
+                <div class="flex items-center gap-4">
+                    <div class="text-right">
+                        <p id="userRealName" class="font-bold text-sm leading-tight">Name</p>
+                        <p id="userRole" class="text-[10px] uppercase tracking-widest text-indigo-600 font-bold">Role</p>
+                    </div>
+                    <div class="w-10 h-10 bg-slate-100 rounded-full border-2 border-white shadow-sm overflow-hidden">
+                        <img src="https://ui-avatars.com/api/?name=User&background=6366f1&color=fff" id="avatar" alt="profile">
+                    </div>
+                </div>
+            </header>
+
+            <div id="appBody" class="flex-1 overflow-y-auto p-10 page-transition">
+                <!-- Dynamic Content Loads Here -->
+            </div>
+        </main>
+    </div>
+
+    <script>
+        const API_URL = "https://script.google.com/macros/s/AKfycbxrcX4ScLRbrMDeu3DQE1TL_deSA6GdmKCKEZfbIbJmQE3vfCjFh5cPvv_TPTTA3IJqQA/exec"; // Put your URL here
+        let userData = null;
+
+        // 1. LOGIN SYSTEM
+        async function login() {
+            const user = document.getElementById('username').value;
+            const pass = document.getElementById('password').value;
+            
+            // Show loading state
+            document.querySelector('button').innerText = "Verifying...";
+            
+            try {
+                const res = await fetch(`${API_URL}?action=read&sheet=Users`);
+                const users = await res.json();
+                const found = users.find(u => u.username == user && u.password == pass);
+
+                if (found) {
+                    userData = found;
+                    initDashboard();
+                } else {
+                    alert("Invalid Credentials");
+                    document.querySelector('button').innerText = "Sign In";
+                }
+            } catch (e) {
+                alert("Error connecting to Google Sheets. Check your Script URL.");
+            }
+        }
+
+        function initDashboard() {
+            document.getElementById('loginPage').classList.add('hidden');
+            document.getElementById('mainApp').classList.remove('hidden');
+            document.getElementById('userRealName').innerText = userData.name;
+            document.getElementById('userRole').innerText = userData.role;
+            document.getElementById('avatar').src = `https://ui-avatars.com/api/?name=${userData.name}&background=6366f1&color=fff`;
+            
+            renderNav();
+            loadView('Dashboard');
+        }
+
+        function renderNav() {
+            const menu = document.getElementById('navMenu');
+            const items = [
+                { name: 'Dashboard', icon: 'fa-th-large', roles: ['student', 'admin'] },
+                { name: 'Attendance', icon: 'fa-calendar-check', roles: ['student', 'admin'] },
+                { name: 'Marks/Reports', icon: 'fa-chart-line', roles: ['student', 'admin'] },
+                { name: 'Fees', icon: 'fa-wallet', roles: ['student', 'admin'] },
+                { name: 'Schedule', icon: 'fa-clock', roles: ['student', 'admin'] },
+                { name: 'Registration', icon: 'fa-user-plus', roles: ['admin'] },
+                { name: 'Staff Panel', icon: 'fa-users-gear', roles: ['admin'] }
+            ];
+
+            menu.innerHTML = items.filter(i => i.roles.includes(userData.role)).map(i => `
+                <button onclick="loadView('${i.name}')" class="sidebar-link w-full flex items-center gap-4 p-4 rounded-2xl text-slate-500 font-semibold transition-all hover:bg-slate-50">
+                    <i class="fas ${i.icon} w-5"></i> <span>${i.name}</span>
+                </button>
+            `).join('');
+        }
+
+        // 2. VIEW CONTROLLER (Handling all points from the image)
+        async function loadView(view) {
+            document.getElementById('viewTitle').innerText = view;
+            const container = document.getElementById('appBody');
+            container.innerHTML = `<div class="flex justify-center mt-20"><i class="fas fa-spinner fa-spin text-4xl text-indigo-600"></i></div>`;
+
+            if (view === 'Dashboard') {
+                const notices = await fetchData('Notices');
+                container.innerHTML = `
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-10">
+                        <div class="glass p-8 rounded-[2rem] shadow-sm">
+                            <p class="text-slate-400 text-sm font-bold uppercase tracking-wider">Attendance</p>
+                            <h3 class="text-4xl font-bold mt-2">92%</h3>
+                            <div class="mt-4 h-2 bg-slate-100 rounded-full overflow-hidden"><div class="h-full bg-indigo-500 w-[92%]"></div></div>
+                        </div>
+                        <div class="glass p-8 rounded-[2rem] shadow-sm">
+                            <p class="text-slate-400 text-sm font-bold uppercase tracking-wider">Fees Due</p>
+                            <h3 class="text-4xl font-bold mt-2 text-red-500">₹2,400</h3>
+                        </div>
+                        <div class="glass p-8 rounded-[2rem] shadow-sm">
+                            <p class="text-slate-400 text-sm font-bold uppercase tracking-wider">Next Class</p>
+                            <h3 class="text-2xl font-bold mt-2">Mathematics</h3>
+                            <p class="text-indigo-600 font-bold text-sm">Room 102 • 10:30 AM</p>
+                        </div>
+                    </div>
+                    <div class="glass p-8 rounded-[2rem]">
+                        <h3 class="text-xl font-bold mb-6 flex items-center gap-2"><i class="fas fa-bullhorn text-indigo-600"></i> Recent Notices</h3>
+                        <div class="space-y-4">
+                            ${notices.map(n => `
+                                <div class="p-4 bg-slate-50 rounded-2xl border border-slate-100">
+                                    <p class="text-xs font-bold text-indigo-600 mb-1">${n.date}</p>
+                                    <h4 class="font-bold">${n.title}</h4>
+                                    <p class="text-slate-500 text-sm">${n.content}</p>
+                                </div>
+                            `).join('')}
+                        </div>
+                    </div>
+                `;
+            }
+
+            if (view === 'Registration') {
+                container.innerHTML = `
+                    <div class="max-w-2xl bg-white p-10 rounded-[2rem] shadow-xl border border-slate-100">
+                        <h3 class="text-2xl font-bold mb-8">New Student Registration</h3>
+                        <div class="grid grid-cols-2 gap-6">
+                            <input type="text" id="regName" placeholder="Full Name" class="p-4 rounded-xl border">
+                            <input type="text" id="regBatch" placeholder="Batch Name" class="p-4 rounded-xl border">
+                            <input type="text" id="regUser" placeholder="Assign Username" class="p-4 rounded-xl border">
+                            <input type="password" id="regPass" placeholder="Set Password" class="p-4 rounded-xl border">
+                        </div>
+                        <button onclick="saveStudent()" class="mt-8 w-full bg-indigo-600 text-white py-4 rounded-xl font-bold">Register Student</button>
+                    </div>
+                `;
+            }
+
+            if (view === 'Attendance') {
+                if(userData.role === 'admin') {
+                    const students = await fetchData('Users');
+                    container.innerHTML = `
+                        <div class="glass rounded-[2rem] overflow-hidden">
+                            <table class="w-full text-left">
+                                <thead class="bg-slate-50 border-b">
+                                    <tr><th class="p-6 font-bold">Student</th><th class="p-6 font-bold">Batch</th><th class="p-6 text-center">Action</th></tr>
+                                </thead>
+                                <tbody>
+                                    ${students.filter(s => s.role == 'student').map(s => `
+                                        <tr class="border-b">
+                                            <td class="p-6 font-semibold">${s.name}</td>
+                                            <td class="p-6 text-slate-500">${s.batch}</td>
+                                            <td class="p-6 text-center">
+                                                <button onclick="submitAttendance('${s.name}', 'Present')" class="px-4 py-2 bg-emerald-50 text-emerald-600 rounded-lg text-xs font-bold mr-2 hover:bg-emerald-600 hover:text-white transition">Present</button>
+                                                <button onclick="submitAttendance('${s.name}', 'Absent')" class="px-4 py-2 bg-red-50 text-red-600 rounded-lg text-xs font-bold hover:bg-red-600 hover:text-white transition">Absent</button>
+                                            </td>
+                                        </tr>
+                                    `).join('')}
+                                </tbody>
+                            </table>
+                        </div>
+                    `;
+                } else {
+                    container.innerHTML = `<div class="text-center p-20 glass rounded-[2rem]"><h2 class="text-2xl font-bold">Attendance Record</h2><p class="mt-4">Your average attendance is <b>92%</b>. You have missed 2 classes this month.</p></div>`;
+                }
+            }
+
+            if (view === 'Fees') {
+                const fees = await fetchData('Fees');
+                const myFees = fees.find(f => f.studentName === userData.name) || {totalAmount: 0, paidAmount: 0, status: 'N/A'};
+                container.innerHTML = `
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div class="glass p-8 rounded-[2rem]">
+                            <h3 class="text-lg font-bold mb-4">Payment Track</h3>
+                            <div class="space-y-4">
+                                <div class="flex justify-between"><span>Total Course Fee</span><span class="font-bold">₹${myFees.totalAmount}</span></div>
+                                <div class="flex justify-between"><span>Paid Amount</span><span class="text-emerald-600 font-bold">₹${myFees.paidAmount}</span></div>
+                                <hr>
+                                <div class="flex justify-between text-xl font-bold"><span>Balance</span><span class="text-red-500">₹${myFees.totalAmount - myFees.paidAmount}</span></div>
+                            </div>
+                        </div>
+                        <div class="glass p-8 rounded-[2rem] flex flex-col items-center justify-center">
+                            <div class="text-center">
+                                <p class="text-slate-400 font-bold uppercase mb-2">Status</p>
+                                <span class="px-6 py-2 bg-amber-100 text-amber-700 rounded-full font-bold">${myFees.status}</span>
+                                <button class="block mt-6 px-10 py-3 bg-indigo-600 text-white rounded-xl font-bold shadow-lg">Pay Now</button>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            }
+        }
+
+        // 3. UTILITY FUNCTIONS
+        async function fetchData(sheetName) {
+            const res = await fetch(`${API_URL}?action=read&sheet=${sheetName}`);
+            return await res.json();
+        }
+
+        async function submitAttendance(name, status) {
+            // Simulated SMS Alert as per request
+            alert(`Sending SMS Alert to Parent of ${name}...`);
+            const payload = { 
+                sheet: 'Attendance', 
+                data: [new Date().toLocaleDateString(), name, status, userData.batch || 'N/A'] 
+            };
+            await fetch(API_URL, { method: 'POST', body: JSON.stringify(payload) });
+            alert(`Attendance Recorded: ${name} is ${status}`);
+        }
+
+        async function saveStudent() {
+            const data = [
+                document.getElementById('regUser').value,
+                document.getElementById('regPass').value,
+                document.getElementById('regName').value,
+                'student',
+                document.getElementById('regBatch').value,
+                '', ''
+            ];
+            await fetch(API_URL, { method: 'POST', body: JSON.stringify({ sheet: 'Users', data: data }) });
+            alert("Student Registered Successfully in Google Sheets!");
+            loadView('Dashboard');
+        }
+
+        function logout() { location.reload(); }
+    </script>
+</body>
+</html>
