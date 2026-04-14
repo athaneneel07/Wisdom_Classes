@@ -12,7 +12,7 @@
             --white: #FFFFFF;
             --text-dark: #2C3E50;
             --text-light: #7F8C8D;
-            --accent: #D4AF37; /* Soft Gold */
+            --accent: #D4AF37; 
             --accent-hover: #B5952F;
             --shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
             --transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
@@ -38,7 +38,6 @@
         .login-card { background: var(--white); padding: 50px; border-radius: 20px; box-shadow: var(--shadow); width: 100%; max-width: 400px; text-align: center; position: relative; }
         .login-card h2 { margin-bottom: 30px; color: var(--text-dark); }
         
-        /* Modal Background */
         .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.6); z-index: 300; display: flex; justify-content: center; align-items: center; backdrop-filter: blur(5px); }
 
         .input-group { margin-bottom: 20px; text-align: left; }
@@ -48,6 +47,9 @@
 
         .btn-primary { width: 100%; background: var(--accent); color: var(--white); padding: 15px; border: none; border-radius: 10px; font-size: 1rem; font-weight: 600; cursor: pointer; transition: var(--transition); margin-top: 10px; display: block; text-align: center;}
         .btn-primary:hover { background: var(--accent-hover); transform: translateY(-2px); box-shadow: 0 5px 15px rgba(212, 175, 55, 0.3); }
+
+        .btn-danger { background: #C62828; color: white; border: none; padding: 10px 15px; border-radius: 10px; font-weight: 600; cursor: pointer; transition: var(--transition); }
+        .btn-danger:hover { background: #B71C1C; }
 
         .forgot-link { color: var(--accent); text-decoration: none; font-weight: 500; font-size: 0.9rem; display: inline-block; margin-top: 15px; transition: var(--transition); cursor: pointer; }
         .forgot-link:hover { color: var(--accent-hover); text-decoration: underline; }
@@ -75,10 +77,7 @@
         .btn-call { text-decoration: none; padding: 8px 15px; background: #E3F2FD; color: #1565C0; border-radius: 20px; font-size: 0.85rem; font-weight: 600; margin-right: 5px; display:inline-block; transition: var(--transition); }
         .btn-wa { text-decoration: none; padding: 8px 15px; background: #E8F5E9; color: #2E7D32; border-radius: 20px; font-size: 0.85rem; font-weight: 600; display:inline-block; transition: var(--transition); margin-right: 5px; }
         .btn-mail { text-decoration: none; padding: 8px 15px; background: #FFF3E0; color: #E65100; border-radius: 20px; font-size: 0.85rem; font-weight: 600; display:inline-block; transition: var(--transition); }
-        
-        .btn-call:hover { background: #BBDEFB; }
-        .btn-wa:hover { background: #C8E6C9; }
-        .btn-mail:hover { background: #FFE0B2; }
+        .btn-call:hover { background: #BBDEFB; } .btn-wa:hover { background: #C8E6C9; } .btn-mail:hover { background: #FFE0B2; }
 
         .btn-toggle-fee { padding: 6px 12px; background: var(--bg-cream); border: 1px solid var(--accent); color: var(--accent); border-radius: 20px; font-size: 0.8rem; font-weight: 600; cursor: pointer; transition: var(--transition);}
         .btn-toggle-fee:hover { background: var(--accent); color: var(--white); }
@@ -115,8 +114,6 @@
             <button class="btn-primary" onclick="attemptLogin()">Login</button>
             <div class="loader" id="login-loader"></div>
             <p id="login-msg" style="color: red; margin-top: 10px; font-size: 0.9rem;"></p>
-
-            <!-- Forgot Password Link -->
             <a class="forgot-link" onclick="toggleForgotPassword()">Forgot Password?</a>
         </div>
     </div>
@@ -126,13 +123,11 @@
         <div class="login-card fade-in" style="max-width: 350px; padding: 40px;">
             <h3 style="color: var(--text-dark); margin-bottom: 10px;">Reset Password</h3>
             <p style="font-size: 0.9rem; color: var(--text-light); margin-bottom: 25px;">To protect your account, please contact the Admin to reset your password securely.</p>
-            
             <div style="display: flex; flex-direction: column; gap: 15px;">
                 <a href="tel:9422231321" class="btn-primary" style="background: #E3F2FD; color: #1565C0;">📞 Call Admin</a>
                 <a href="https://wa.me/919422231321" target="_blank" class="btn-primary" style="background: #E8F5E9; color: #2E7D32;">💬 WhatsApp Admin</a>
                 <a href="mailto:athaneneel07@gmail.com" class="btn-primary" style="background: #FFF3E0; color: #E65100;">✉️ Email Admin</a>
             </div>
-
             <button onclick="toggleForgotPassword()" style="margin-top: 25px; background: none; border: none; color: var(--text-light); font-weight: 600; cursor: pointer;">Cancel / Close</button>
         </div>
     </div>
@@ -153,22 +148,20 @@
     <div id="student-section" class="dashboard hidden">
         <div class="dashboard-header fade-in">
             <h2>Student Portal</h2>
-            <p>View your academic progress, attendance, and institute notices.</p>
+            <p>View your academic progress, subject-wise attendance, and notices.</p>
         </div>
         <div id="student-loading" class="full-page-loader">Loading your data...</div>
         <div class="grid-container hidden" id="student-content">
             
-            <!-- Overall Attendance % -->
             <div class="card fade-in" style="background: linear-gradient(135deg, var(--accent) 0%, #B5952F 100%); color: white;">
                 <h3 style="color: white; border-bottom: 1px solid rgba(255,255,255,0.3);">Overall Attendance</h3>
                 <div style="font-size: 3rem; font-weight: 700; margin: 10px 0;" id="stu-perc-display">0%</div>
                 <p style="font-size: 0.9rem; opacity: 0.9;">Total attendance calculated till date.</p>
             </div>
 
-            <!-- Contact Admin Card -->
             <div class="card fade-in">
                 <h3>Contact Admin</h3>
-                <p style="font-size: 0.9rem; color: var(--text-light); margin-bottom: 20px;">Need help with fees, passwords, or have an issue? Contact the admin directly.</p>
+                <p style="font-size: 0.9rem; color: var(--text-light); margin-bottom: 20px;">Need help with fees or passwords? Contact admin directly.</p>
                 <div style="display: flex; gap: 10px; flex-wrap: wrap;">
                     <a href="tel:9422231321" class="btn-call">📞 Call</a>
                     <a href="https://wa.me/919422231321" target="_blank" class="btn-wa">💬 WhatsApp</a>
@@ -176,31 +169,28 @@
                 </div>
             </div>
 
-            <!-- Institute Notices -->
             <div class="card fade-in" style="grid-row: span 2;">
                 <h3>Institute Notices</h3>
                 <div id="stu-notices-body"></div>
             </div>
 
-            <!-- Recent Attendance -->
+            <!-- New Subject Wise Attendance -->
             <div class="card fade-in">
                 <h3>Recent Attendance History</h3>
                 <table>
-                    <thead><tr><th>Date</th><th>Status</th></tr></thead>
+                    <thead><tr><th>Date</th><th>Subject</th><th>Status</th></tr></thead>
                     <tbody id="stu-att-body"></tbody>
                 </table>
             </div>
 
-            <!-- Exam Results -->
             <div class="card fade-in">
                 <h3>Exam Results</h3>
                 <table>
-                    <thead><tr><th>Exam Name</th><th>Marks</th></tr></thead>
+                    <thead><tr><th>Subject / Exam</th><th>Marks</th></tr></thead>
                     <tbody id="stu-marks-body"></tbody>
                 </table>
             </div>
-
-            <!-- Timetable -->
+            
             <div class="card fade-in">
                 <h3>Monthly Timetable</h3>
                 <table>
@@ -215,21 +205,19 @@
     <div id="teacher-section" class="dashboard hidden">
         <div class="dashboard-header fade-in">
             <h2>Teacher Portal</h2>
-            <p>Manage students, mark attendance, update marks, and view past results.</p>
+            <p>Manage students, mark attendance, and view past results.</p>
         </div>
         <div id="teacher-loading" class="full-page-loader">Loading teacher portal...</div>
         <div class="grid-container hidden" id="teacher-content">
             
-            <!-- Institute Notices -->
             <div class="card fade-in" style="grid-column: 1 / -1;">
                 <h3>Institute Notices</h3>
                 <div id="teach-notices-body" style="display: flex; gap: 15px; overflow-x: auto; padding-bottom: 10px;"></div>
             </div>
 
-            <!-- Contact Admin Card -->
             <div class="card fade-in">
                 <h3>Contact Admin</h3>
-                <p style="font-size: 0.9rem; color: var(--text-light); margin-bottom: 20px;">Need system assistance, salary updates, or leave approval? Contact the admin.</p>
+                <p style="font-size: 0.9rem; color: var(--text-light); margin-bottom: 20px;">Need system assistance or leave approval?</p>
                 <div style="display: flex; gap: 10px; flex-wrap: wrap;">
                     <a href="tel:9422231321" class="btn-call">📞 Call</a>
                     <a href="https://wa.me/919422231321" target="_blank" class="btn-wa">💬 WhatsApp</a>
@@ -237,9 +225,9 @@
                 </div>
             </div>
 
-            <!-- Mark Attendance -->
+            <!-- Mark Attendance (Subject specific) -->
             <div class="card fade-in">
-                <h3>Mark Attendance</h3>
+                <h3 id="teacher-attendance-title">Mark Attendance</h3>
                 <div class="input-group">
                     <label>Select Date</label>
                     <input type="date" id="attendance-date">
@@ -257,7 +245,7 @@
                 <h3>Upload Exam Marks</h3>
                 <div class="input-group">
                     <label>Exam / Subject Name</label>
-                    <input type="text" id="exam-name" placeholder="e.g. Mid-Term Maths">
+                    <input type="text" id="exam-name" placeholder="e.g. Mid-Term Science">
                 </div>
                 <table>
                     <thead><tr><th>Student Name</th><th>Marks</th></tr></thead>
@@ -267,11 +255,10 @@
                 <p id="marks-msg" style="margin-top: 10px; font-size: 0.9rem;"></p>
             </div>
 
-            <!-- View Past Results -->
             <div class="card fade-in" style="grid-column: 1 / -1;">
                 <h3>Previously Uploaded Exam Marks</h3>
                 <table>
-                    <thead><tr><th>Exam Name</th><th>Student Username</th><th>Marks Scored</th></tr></thead>
+                    <thead><tr><th>Subject / Exam</th><th>Student Username</th><th>Marks Scored</th></tr></thead>
                     <tbody id="teach-past-marks-body"></tbody>
                 </table>
             </div>
@@ -286,13 +273,12 @@
         </div>
         <div class="grid-container">
             
-            <!-- Register Student Form -->
             <div class="card fade-in">
                 <h3>Register Student</h3>
                 <div class="input-group"><input type="text" id="reg-stu-name" placeholder="Full Name"></div>
                 <div style="display: grid; grid-template-columns: 1fr 1fr; gap:10px;">
                     <div class="input-group"><input type="text" id="reg-stu-class" placeholder="Class/Batch"></div>
-                    <div class="input-group"><input type="text" id="reg-stu-phone" placeholder="Phone No."></div>
+                    <div class="input-group"><input type="text" id="reg-stu-phone" placeholder="Phone No. (10 digits)"></div>
                 </div>
                 <div class="input-group"><input type="email" id="reg-stu-email" placeholder="Email ID"></div>
                 <div style="display: grid; grid-template-columns: 1fr 1fr; gap:10px;">
@@ -303,7 +289,6 @@
                 <p id="reg-stu-msg" style="margin-top: 10px; font-size: 0.9rem;"></p>
             </div>
 
-            <!-- Register Teacher Form -->
             <div class="card fade-in">
                 <h3>Register Teacher</h3>
                 <div class="input-group"><input type="text" id="reg-tch-name" placeholder="Full Name"></div>
@@ -320,28 +305,31 @@
             </div>
 
             <!-- Publish Notice -->
-            <div class="card fade-in" style="grid-column: 1 / -1;">
-                <h3>Publish Institute Notice</h3>
-                <div class="input-group">
-                    <textarea id="admin-notice-msg" rows="3" placeholder="Write notice here for all students & teachers..."></textarea>
+            <div class="card fade-in" style="grid-column: 1 / -1; display:flex; justify-content:space-between; align-items:flex-end;">
+                <div style="flex: 1; margin-right: 20px;">
+                    <h3>Institute Notices</h3>
+                    <div class="input-group">
+                        <textarea id="admin-notice-msg" rows="3" placeholder="Write notice here for all students & teachers..."></textarea>
+                    </div>
+                    <button class="btn-primary" id="notice-btn" style="max-width: 250px;" onclick="publishNotice()">Publish Notice</button>
+                    <p id="notice-msg" style="margin-top: 10px; font-size: 0.9rem;"></p>
                 </div>
-                <button class="btn-primary" id="notice-btn" style="max-width: 250px;" onclick="publishNotice()">Post Notice</button>
-                <p id="notice-msg" style="margin-top: 10px; font-size: 0.9rem;"></p>
+                <div>
+                    <button class="btn-danger" onclick="clearNotices()">Clear All Notices</button>
+                </div>
             </div>
 
             <div id="admin-loading" class="full-page-loader">Loading Institute Data...</div>
             
             <div id="admin-content" class="grid-container hidden" style="grid-column: 1 / -1; display: contents;">
-                <!-- Student Database -->
                 <div class="card fade-in" style="grid-column: 1 / -1;">
                     <h3>Student Database, Progress & Fees Management</h3>
                     <table>
-                        <thead><tr><th>Name</th><th>Class</th><th>Attendance %</th><th>Fee Status</th><th>Change Fee</th><th>Contact</th></tr></thead>
+                        <thead><tr><th>Name</th><th>Class</th><th>Attendance %</th><th>Fee Status</th><th>Change Fee (WA Alert)</th><th>Contact</th></tr></thead>
                         <tbody id="admin-students-body"></tbody>
                     </table>
                 </div>
 
-                <!-- Teacher Details -->
                 <div class="card fade-in" style="grid-column: 1 / -1;">
                     <h3>Teacher Staff Details</h3>
                     <table>
@@ -362,6 +350,7 @@
 
         let currentUser = "";
         let currentRole = "";
+        let currentTeacherSubject = ""; // Stores teacher's subject
 
         const loginSection = document.getElementById('login-section');
         const mainHeader = document.getElementById('main-header');
@@ -370,24 +359,13 @@
         const loginMsg = document.getElementById('login-msg');
         const forgotModal = document.getElementById('forgot-modal');
 
-        // Toggle Forgot Password Modal
-        function toggleForgotPassword() {
-            if(forgotModal.classList.contains('hidden')) {
-                forgotModal.classList.remove('hidden');
-            } else {
-                forgotModal.classList.add('hidden');
-            }
-        }
+        function toggleForgotPassword() { forgotModal.classList.toggle('hidden'); }
 
-        // Main API Fetch function
         async function fetchAPI(payload) {
             try {
                 const response = await fetch(GOOGLE_API_URL, { method: 'POST', body: JSON.stringify(payload) });
                 return await response.json();
-            } catch (error) {
-                console.error("API Error:", error);
-                return { success: false, message: "Server connection failed." };
-            }
+            } catch (error) { return { success: false, message: "Server connection failed." }; }
         }
 
         // ========================
@@ -405,10 +383,9 @@
             if(result.success) {
                 currentUser = result.username;
                 currentRole = String(result.role).toLowerCase().trim(); 
+                currentTeacherSubject = result.subject || "General"; 
                 showDashboard(currentRole, result.name);
-            } else {
-                loginMsg.innerText = result.message;
-            }
+            } else { loginMsg.innerText = result.message; }
         }
 
         function showDashboard(role, name) {
@@ -421,11 +398,10 @@
             if(role === 'student') { document.getElementById('student-section').classList.remove('hidden'); loadStudentData(); } 
             else if(role === 'teacher') { document.getElementById('teacher-section').classList.remove('hidden'); loadTeacherData(); } 
             else if(role === 'admin') { document.getElementById('admin-section').classList.remove('hidden'); loadAdminData(); } 
-            else { alert("Error: Role not recognized."); }
         }
 
         function logout() {
-            currentUser = ""; currentRole = "";
+            currentUser = ""; currentRole = ""; currentTeacherSubject = "";
             mainHeader.classList.add('hidden');
             ['student-section','teacher-section','admin-section'].forEach(id => document.getElementById(id).classList.add('hidden'));
             loginSection.classList.remove('hidden');
@@ -445,19 +421,18 @@
             
             if(result.success) {
                 document.getElementById('student-content').classList.remove('hidden');
-
                 document.getElementById('stu-perc-display').innerText = result.attPercentage + "%";
 
                 document.getElementById('stu-att-body').innerHTML = result.attendance.length ? result.attendance.map(a => 
-                    `<tr><td>${String(a.Date).substring(0,10)}</td><td><span class="status ${String(a.Status).toLowerCase()}">${a.Status}</span></td></tr>`
-                ).join('') : "<tr><td colspan='2'>No recent attendance.</td></tr>";
+                    `<tr><td>${String(a.Date).substring(0,10)}</td><td><strong>${a.Subject || '-'}</strong></td><td><span class="status ${String(a.Status).toLowerCase()}">${a.Status}</span></td></tr>`
+                ).join('') : "<tr><td colspan='3'>No recent attendance.</td></tr>";
 
                 document.getElementById('stu-notices-body').innerHTML = result.notices.length ? result.notices.map(n => 
                     `<div class="notice-item"><span class="notice-date">${String(n.Date).substring(0,10)}</span><p>${n.Message}</p></div>`
                 ).join('') : "<p style='color:var(--text-light);'>No new notices.</p>";
 
                 document.getElementById('stu-marks-body').innerHTML = result.marks.length ? result.marks.map(m => 
-                    `<tr><td>${m.Exam}</td><td>${m.Score}</td></tr>`
+                    `<tr><td>${m.Exam || m.exam || '-'}</td><td><strong>${m.Score}</strong></td></tr>`
                 ).join('') : "<tr><td colspan='2'>No exams graded yet.</td></tr>";
 
                 document.getElementById('stu-time-body').innerHTML = result.timetable.length ? result.timetable.map(t => 
@@ -474,6 +449,7 @@
             document.getElementById('teacher-loading').classList.remove('hidden');
             document.getElementById('teacher-content').classList.add('hidden');
             document.getElementById('attendance-date').valueAsDate = new Date();
+            document.getElementById('teacher-attendance-title').innerText = `Mark Attendance (${currentTeacherSubject})`;
 
             const result = await fetchAPI({ action: "getTeacherDashboard" });
             document.getElementById('teacher-loading').classList.add('hidden');
@@ -495,7 +471,7 @@
                 `).join('');
 
                 document.getElementById('teach-past-marks-body').innerHTML = result.pastMarks && result.pastMarks.length ? result.pastMarks.map(m => `
-                    <tr><td>${m.Exam}</td><td>${m.Username}</td><td><strong>${m.Score}</strong></td></tr>
+                    <tr><td>${m.Exam || m.exam || '-'}</td><td>${m.Username}</td><td><strong>${m.Score}</strong></td></tr>
                 `).join('') : "<tr><td colspan='3'>No past marks uploaded.</td></tr>";
             }
         }
@@ -508,14 +484,14 @@
             const records = teacherStudentsList.map(s => ({ username: s.username, status: document.getElementById('att_' + s.username).value }));
             msg.style.color = "blue"; msg.innerText = "Saving attendance...";
             
-            const result = await fetchAPI({ action: "markAttendance", date: date, records: records });
+            const result = await fetchAPI({ action: "markAttendance", date: date, subject: currentTeacherSubject, records: records });
             msg.style.color = result.success ? "green" : "red"; msg.innerText = result.message;
         }
 
         async function submitMarks() {
             const exam = document.getElementById('exam-name').value.trim();
             const msg = document.getElementById('marks-msg');
-            if(!exam) { msg.style.color="red"; msg.innerText="Enter Exam Name!"; return; }
+            if(!exam) { msg.style.color="red"; msg.innerText="Enter Exam/Subject Name!"; return; }
 
             const records = teacherStudentsList.map(s => ({ username: s.username, score: document.getElementById('mark_' + s.username).value.trim() }));
             msg.style.color = "blue"; msg.innerText = "Uploading marks...";
@@ -524,7 +500,7 @@
             msg.style.color = result.success ? "green" : "red"; msg.innerText = result.message;
             if(result.success) {
                 teacherStudentsList.forEach(s => document.getElementById('mark_' + s.username).value = "");
-                loadTeacherData(); // Refresh the past marks table
+                loadTeacherData(); 
             }
         }
 
@@ -545,7 +521,7 @@
                         <td>${s.Class}</td>
                         <td><strong>${s.Progress}</strong></td>
                         <td><span id="fee-status-${s.Username}" class="status ${String(s.FeesStatus).toLowerCase()}">${s.FeesStatus}</span></td>
-                        <td><button class="btn-toggle-fee" onclick="toggleFee('${s.Username}', '${s.FeesStatus}')">Mark Paid/Unpaid</button></td>
+                        <td><button class="btn-toggle-fee" onclick="toggleFee('${s.Username}', '${s.FeesStatus}', '${s.Phone}', '${s.Name}')">Mark Paid/Unpaid</button></td>
                         <td>
                             <a href="tel:${s.Phone}" class="btn-call">📞</a>
                             <a href="https://wa.me/91${s.Phone}" target="_blank" class="btn-wa">💬 WA</a>
@@ -554,12 +530,13 @@
                 `).join('') : "<tr><td colspan='6'>No students found</td></tr>";
 
                 document.getElementById('admin-teachers-body').innerHTML = result.teachers.length ? result.teachers.map(t => `
-                    <tr><td>${t.Name}</td><td>${t.Subject}</td><td>₹${t.Salary}</td></tr>
+                    <tr><td>${t.Name}</td><td>${t.Subject || t.subject || '-'}</td><td>₹${t.Salary}</td></tr>
                 `).join('') : "<tr><td colspan='3'>No teachers found</td></tr>";
             }
         }
 
-        async function toggleFee(username, currentStatus) {
+        // Feature: Fee Update + WhatsApp Notification
+        async function toggleFee(username, currentStatus, phone, studentName) {
             const newStatus = (String(currentStatus).toLowerCase() === 'paid') ? 'Unpaid' : 'Paid';
             const statusBadge = document.getElementById(`fee-status-${username}`);
             
@@ -567,8 +544,16 @@
             statusBadge.className = "status"; 
 
             const result = await fetchAPI({ action: "updateFeeStatus", username: username, newStatus: newStatus });
-            if(result.success) { loadAdminData(); } 
-            else { alert("Failed to update fee status: " + result.message); loadAdminData(); }
+            if(result.success) { 
+                if(confirm(`Fee updated to ${newStatus}. Do you want to send a WhatsApp alert to ${studentName}?`)) {
+                    const text = `Hello ${studentName}, your fee status at Wisdom Coaching Class has been updated to: *${newStatus}*.`;
+                    window.open(`https://wa.me/91${phone}?text=${encodeURIComponent(text)}`, '_blank');
+                }
+                loadAdminData(); 
+            } else { 
+                alert("Failed to update fee status: " + result.message); 
+                loadAdminData(); 
+            }
         }
 
         async function registerAccount(type) {
@@ -593,7 +578,7 @@
                 data.salary = document.getElementById(`${prefix}-sal`).value.trim();
             }
 
-            if(!data.name || !data.username || !data.password) { msg.style.color = "red"; msg.innerText = "Name, Username, and Password are required!"; return; }
+            if(!data.name || !data.username || !data.password) { msg.style.color = "red"; msg.innerText = "Fields required!"; return; }
 
             btn.innerText = "Registering..."; msg.innerText = "";
             const result = await fetchAPI(data);
@@ -606,21 +591,42 @@
             } else { msg.style.color = "red"; msg.innerText = result.message; }
         }
 
+        // Feature: Publish Notice + WhatsApp Broadcast prompt
         async function publishNotice() {
             const txt = document.getElementById('admin-notice-msg').value.trim();
             const msg = document.getElementById('notice-msg');
             const btn = document.getElementById('notice-btn');
-            
             if(!txt) { msg.style.color = "red"; msg.innerText = "Cannot post empty notice!"; return; }
 
             btn.innerText = "Publishing..."; msg.innerText = "";
             const result = await fetchAPI({ action: "postNotice", message: txt });
             
-            btn.innerText = "Post Notice";
+            btn.innerText = "Publish Notice";
             if(result.success) {
                 msg.style.color = "green"; msg.innerText = result.message;
                 document.getElementById('admin-notice-msg').value = "";
+                
+                // Ask Admin to share to their WhatsApp Group
+                if(confirm("Notice Published! Do you want to share this notice to your Students WhatsApp Group now?")) {
+                    const waText = `*Wisdom Coaching Class Notice*\n\n${txt}`;
+                    window.open(`https://wa.me/?text=${encodeURIComponent(waText)}`, '_blank');
+                }
             } else { msg.style.color = "red"; msg.innerText = result.message; }
+        }
+
+        // Feature: Clear Notices
+        async function clearNotices() {
+            if(!confirm("⚠️ WARNING: Are you sure you want to permanently delete ALL notices?")) return;
+            
+            const msg = document.getElementById('notice-msg');
+            msg.style.color = "blue"; msg.innerText = "Clearing...";
+            
+            const result = await fetchAPI({ action: "clearNotices" });
+            if(result.success) {
+                msg.style.color = "green"; msg.innerText = result.message;
+            } else {
+                msg.style.color = "red"; msg.innerText = result.message;
+            }
         }
     </script>
 </body>
